@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.hardware.Sensor
 import android.hardware.Sensor.TYPE_LIGHT
-import android.hardware.Sensor.TYPE_PROXIMITY
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
@@ -40,15 +39,15 @@ class LightSensor : AwareSensor(), SensorEventListener {
     companion object {
         const val TAG = "AWARE::Light"
 
-        const val ACTION_AWARE_PROXIMITY = "ACTION_AWARE_PROXIMITY"
+        const val ACTION_AWARE_LIGHT = "ACTION_AWARE_LIGHT"
 
-        const val ACTION_AWARE_PROXIMITY_START = "com.awareframework.android.sensor.light.SENSOR_START"
-        const val ACTION_AWARE_PROXIMITY_STOP = "com.awareframework.android.sensor.light.SENSOR_STOP"
+        const val ACTION_AWARE_LIGHT_START = "com.awareframework.android.sensor.light.SENSOR_START"
+        const val ACTION_AWARE_LIGHT_STOP = "com.awareframework.android.sensor.light.SENSOR_STOP"
 
-        const val ACTION_AWARE_PROXIMITY_SET_LABEL = "com.awareframework.android.sensor.light.ACTION_AWARE_PROXIMITY_SET_LABEL"
+        const val ACTION_AWARE_LIGHT_SET_LABEL = "com.awareframework.android.sensor.light.ACTION_AWARE_LIGHT_SET_LABEL"
         const val EXTRA_LABEL = "label"
 
-        const val ACTION_AWARE_PROXIMITY_SYNC = "com.awareframework.android.sensor.light.SENSOR_SYNC"
+        const val ACTION_AWARE_LIGHT_SYNC = "com.awareframework.android.sensor.light.SENSOR_SYNC"
 
         val CONFIG = Config()
 
@@ -86,13 +85,13 @@ class LightSensor : AwareSensor(), SensorEventListener {
         override fun onReceive(context: Context?, intent: Intent?) {
             intent ?: return
             when (intent.action) {
-                ACTION_AWARE_PROXIMITY_SET_LABEL -> {
+                ACTION_AWARE_LIGHT_SET_LABEL -> {
                     intent.getStringExtra(EXTRA_LABEL)?.let {
                         CONFIG.label = it
                     }
                 }
 
-                ACTION_AWARE_PROXIMITY_SYNC -> onSync(intent)
+                ACTION_AWARE_LIGHT_SYNC -> onSync(intent)
             }
         }
     }
@@ -111,8 +110,8 @@ class LightSensor : AwareSensor(), SensorEventListener {
         sensorHandler = Handler(sensorThread.looper)
 
         registerReceiver(lightReceiver, IntentFilter().apply {
-            addAction(ACTION_AWARE_PROXIMITY_SET_LABEL)
-            addAction(ACTION_AWARE_PROXIMITY_SYNC)
+            addAction(ACTION_AWARE_LIGHT_SET_LABEL)
+            addAction(ACTION_AWARE_LIGHT_SYNC)
         })
 
         logd("Light service created.")
@@ -233,7 +232,7 @@ class LightSensor : AwareSensor(), SensorEventListener {
             logd("Saving buffer to database.")
             dbEngine?.save(dataBuffer, LightData.TABLE_NAME)
 
-            sendBroadcast(Intent(ACTION_AWARE_PROXIMITY))
+            sendBroadcast(Intent(ACTION_AWARE_LIGHT))
         } catch (e: Exception) {
             e.message ?: logw(e.message!!)
             e.printStackTrace()
@@ -310,13 +309,13 @@ class LightSensor : AwareSensor(), SensorEventListener {
                     }
                 }
 
-                ACTION_AWARE_PROXIMITY_STOP,
+                ACTION_AWARE_LIGHT_STOP,
                 SENSOR_STOP_ALL -> {
                     logd("Stopping sensor.")
                     stop(context)
                 }
 
-                ACTION_AWARE_PROXIMITY_START -> {
+                ACTION_AWARE_LIGHT_START -> {
                     start(context)
                 }
             }

@@ -44,14 +44,14 @@ Class to hold the configuration of the sensor.
 
 ### Fired Broadcasts
 
-+ `LightSensor.ACTION_AWARE_PROXIMITY` fired when light saved data to db after the period ends.
++ `LightSensor.ACTION_AWARE_LIGHT` fired when light saved data to db after the period ends.
 
 ### Received Broadcasts
 
-+ `LightSensor.ACTION_AWARE_PROXIMITY_START`: received broadcast to start the sensor.
-+ `LightSensor.ACTION_AWARE_PROXIMITY_STOP`: received broadcast to stop the sensor.
-+ `LightSensor.ACTION_AWARE_PROXIMITY_SYNC`: received broadcast to send sync attempt to the host.
-+ `LightSensor.ACTION_AWARE_PROXIMITY_SET_LABEL`: received broadcast to set the data label. Label is expected in the `LightSensor.EXTRA_LABEL` field of the intent extras.
++ `LightSensor.ACTION_AWARE_LIGHT_START`: received broadcast to start the sensor.
++ `LightSensor.ACTION_AWARE_LIGHT_STOP`: received broadcast to stop the sensor.
++ `LightSensor.ACTION_AWARE_LIGHT_SYNC`: received broadcast to send sync attempt to the host.
++ `LightSensor.ACTION_AWARE_LIGHT_SET_LABEL`: received broadcast to set the data label. Label is expected in the `LightSensor.EXTRA_LABEL` field of the intent extras.
 
 ## Data Representations
 
