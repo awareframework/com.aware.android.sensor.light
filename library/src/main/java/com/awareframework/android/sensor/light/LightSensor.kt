@@ -162,7 +162,9 @@ class LightSensor : AwareSensor(), SensorEventListener {
 
         val device = LightDevice().apply {
             deviceId = CONFIG.deviceId
+            label = CONFIG.label
             timestamp = System.currentTimeMillis()
+
             maxRange = sensor.maximumRange
             minDelay = sensor.minDelay.toFloat()
             name = sensor.name
@@ -206,12 +208,13 @@ class LightSensor : AwareSensor(), SensorEventListener {
         lastValue = event.values[0]
 
         val data = LightData().apply {
-            timestamp = currentTime
-            eventTimestamp = event.timestamp
             deviceId = CONFIG.deviceId
+            label = CONFIG.label
+            timestamp = currentTime
+
+            eventTimestamp = event.timestamp
             light = event.values[0]
             accuracy = event.accuracy
-            label = CONFIG.label
         }
 
         CONFIG.sensorObserver?.onDataChanged(data)
